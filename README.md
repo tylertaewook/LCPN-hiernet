@@ -2,7 +2,6 @@
 Hierarchical Image Classification of Fashion commerce using EfficientNet
 
 - Crafting a dataset for a CH*NEL fashion brand using selenium
-
 ## flat-effnet
 - Using EfficientNet-v1 with a flattened chanelset
 
