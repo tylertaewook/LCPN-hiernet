@@ -1,12 +1,12 @@
-# Fashion-Hiernet
-Fashion-Hiernet is a hierarchical image classification model for fashion commerce items based on **EfficientNet-b**4 and **LCPN (Local Classifier per Parent Node)** technique. This particular implementation is designed for level-2 hierarchy datasets, but I'm working on making it available for deeper datasets in the future! For more details on LCPN technique, refer to [this wonderful article](https://towardsdatascience.com/hierarchical-classification-with-local-classifiers-down-the-rabbit-hole-21cdf3bd2382)!
+# LCPN-hiernet
+LCPN-hiernet is a hierarchical image classification model for fashion commerce items based on **EfficientNet-b**4 and **LCPN (Local Classifier per Parent Node)** technique. This particular implementation is designed for level-2 hierarchy datasets, but I'm working on making it available for deeper datasets in the future! For more details on LCPN technique, refer to [this wonderful article](https://towardsdatascience.com/hierarchical-classification-with-local-classifiers-down-the-rabbit-hole-21cdf3bd2382)!
 
 ## venv setup
 
 ```bash
-python3 -m venv venv
-source ./venv/bin/activate
-pip3 install -r requirements.txt
+$ python3 -m venv venv
+$ source ./venv/bin/activate
+$ pip3 install -r requirements.txt
 ```
 
 ## Usage
@@ -36,7 +36,7 @@ Refer to [dataset_example](/dataset_example) for the directory structure used fo
 
 Then, run the following script:
 ```bash
-python3 prepare_dataset.py -p ./dataset_example
+$ python3 prepare_dataset.py -p ./dataset_example
 ```
 This script will prepare all datasets to train each local classifier under `split_datasets` folder.
 For our [dataset_example](/dataset_example), the script created 7 different datasets split into training and validation set; 1 parent classification model and 6 child classification models.
@@ -44,9 +44,9 @@ For our [dataset_example](/dataset_example), the script created 7 different data
 ### Train Classifier
 
 ```bash
-cd fashion-net/src
-chmod +x ./train_lcpn.sh
-./train_lcpn.sh
+$ cd fashion-net/src
+$ chmod +x ./train_lcpn.sh
+$ ./train_lcpn.sh
 ```
 This script will train all models consecutively from datasets in `split_datasets` folder. All of following output files will be saved in `fashion-net/trained_models` folder.
 ```
@@ -73,16 +73,16 @@ trained_models
 ### Predict
 
 ```bash
-cd fashion-net/src/
-python3 predict.py -p RELATIVE_PATH_TO_IMAGE
+$ cd fashion-net/src/
+$ python3 predict.py -p RELATIVE_PATH_TO_IMAGE
 ```
 Pass in the path to the image you wish to predict on, and this script will perform a two-stage prediction: Parent class & Child class.
 
 1. Parent Class Prediction -> Classified as "bags"
 2. Load encoder and model for "bags" child_class
 3. Child Class Prediction -> Classified as "bags_boy"
-```
-(venv) root@server:~/fashion-net/src# python3 predict.py -p ../sample_images/bags_boy.jpg
+```bash
+$ python3 predict.py -p ../sample_images/bags_boy.jpg
 =======Phase 1: Parent Class Prediction========
 Loading pkl files...
 ENCODER:  {0: 'accessories', 1: 'bags', 2: 'cosmetics', 3: 'perfume', 4: 'wallets', 5: 'watches'}
