@@ -114,7 +114,8 @@ Final Prediction:  bags_boy
 
 # Results & Performance
 <img src="./result_images/graph.png" align="left" style="width: 100%" />
-![](./result_images/matrix.png)
+
+<img src="./result_images/matrix.png" align="left" style="width: 100%" />
 
 Avg. Acc: 85.19%
 
