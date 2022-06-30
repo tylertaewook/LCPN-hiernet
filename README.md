@@ -2,7 +2,6 @@
 LCPN-hiernet is a hierarchical image classification model for fashion commerce items based on **EfficientNet-b**4 and **LCPN (Local Classifier per Parent Node)** technique. This particular implementation is designed for level-2 hierarchy datasets, but I'm working on making it available for deeper datasets in the future! 
 
 ## Local Classifier per Parent Node (LCPN)
-Here's a short review of LCPN excerpted from [this wonderful article](https://towardsdatascience.com/hierarchical-classification-with-local-classifiers-down-the-rabbit-hole-21cdf3bd2382).
 
 ![](https://miro.medium.com/max/1400/1*hgb0Q4cyM2d3cPceE5carA.png)
 
@@ -11,6 +10,8 @@ Here's a short review of LCPN excerpted from [this wonderful article](https://to
 > In our example, that would mean one classifier on the first level (to determine “cat”, “dog” or “unicorn”), then three more classifiers to determine the specific breed.
 > 
 > In order to prevent inconsistencies with the predictions of different levels, you can design the system such that an example classified by the first classifier as “cat” would only be seen by the “Cats” classifier at the second level. This way, you can avoid the creation of new, exotic hybrids such as a Poodle Unicorn (though that does sound marvelous)."
+>
+> -- [<cite>The Hitchhiker’s Guide to Hierarchical Classification</cite>](https://towardsdatascience.com/https-medium-com-noa-weiss-the-hitchhikers-guide-to-hierarchical-classification-f8428ea1e076)
 
 
 # Usage
