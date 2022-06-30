@@ -1,5 +1,19 @@
 # LCPN-hiernet
-LCPN-hiernet is a hierarchical image classification model for fashion commerce items based on **EfficientNet-b**4 and **LCPN (Local Classifier per Parent Node)** technique. This particular implementation is designed for level-2 hierarchy datasets, but I'm working on making it available for deeper datasets in the future! For more details on LCPN technique, refer to [this wonderful article](https://towardsdatascience.com/hierarchical-classification-with-local-classifiers-down-the-rabbit-hole-21cdf3bd2382)!
+LCPN-hiernet is a hierarchical image classification model for fashion commerce items based on **EfficientNet-b**4 and **LCPN (Local Classifier per Parent Node)** technique. This particular implementation is designed for level-2 hierarchy datasets, but I'm working on making it available for deeper datasets in the future! 
+
+## Local Classifier per Parent Node (LCPN)
+Here's a short review of LCPN excerpted from [this wonderful article](https://towardsdatascience.com/hierarchical-classification-with-local-classifiers-down-the-rabbit-hole-21cdf3bd2382).
+
+![](https://miro.medium.com/max/1400/1*hgb0Q4cyM2d3cPceE5carA.png)
+
+> Local classifier per parent node: training one multi-class classifier for each parent node, to distinguish between its child nodes.
+> 
+> In our example, that would mean one classifier on the first level (to determine “cat”, “dog” or “unicorn”), then three more classifiers to determine the specific breed.
+> 
+> In order to prevent inconsistencies with the predictions of different levels, you can design the system such that an example classified by the first classifier as “cat” would only be seen by the “Cats” classifier at the second level. This way, you can avoid the creation of new, exotic hybrids such as a Poodle Unicorn (though that does sound marvelous)."
+
+
+# Usage
 
 ## venv setup
 
@@ -9,9 +23,7 @@ $ source ./venv/bin/activate
 $ pip3 install -r requirements.txt
 ```
 
-## Usage
-
-### Dataset Preparation
+## Dataset Preparation
 
 First, prepare a level-2 hierarchy dataset organized in the following structure.
 ```
@@ -41,7 +53,7 @@ $ python3 prepare_dataset.py -p ./dataset_example
 This script will prepare all datasets to train each local classifier under `split_datasets` folder.
 For our [dataset_example](/dataset_example), the script created 7 different datasets split into training and validation set; 1 parent classification model and 6 child classification models.
 
-### Train Classifier
+## Train Classifier
 
 ```bash
 $ cd fashion-net/src
@@ -70,7 +82,7 @@ trained_models
 └── watches
 ```
 
-### Predict
+## Predict
 
 ```bash
 $ cd fashion-net/src/
@@ -99,12 +111,12 @@ Predicting Label...
 Final Prediction:  bags_boy
 ```
 
-## Results & Performance
+# Results & Performance
 ![](./result_images/graph.png)
 ![](./result_images/matrix.png)
 
 Avg. Acc: 85.19%
 
 
-## License
+# License
 [MIT](https://choosealicense.com/licenses/mit/)
