@@ -1,5 +1,5 @@
 # Fashion-Hiernet
-Fashion-Hiernet is a hierarchical image classification model for fashion commerce items based on EfficientNet-b4 and LCPN (Local Classifier per Parent Node) technique.
+Fashion-Hiernet is a hierarchical image classification model for fashion commerce items based on **EfficientNet-b**4 and **LCPN (Local Classifier per Parent Node)** technique. This particular implementation is designed for level-2 hierarchy datasets, but I'm working on making it available for deeper datasets in the future! For more details on LCPN technique, refer to [this wonderful article](https://towardsdatascience.com/hierarchical-classification-with-local-classifiers-down-the-rabbit-hole-21cdf3bd2382)!
 
 ## venv setup
 
@@ -13,28 +13,98 @@ pip3 install -r requirements.txt
 
 ### Dataset Preparation
 
-For each parent node, run the following script to divide the dataset into train and validation set
-```bash
-python3 splitdata.py -i INPUT_DIR -o OUTPUT_DIR 
+First, prepare a level-2 hierarchy dataset organized in the following structure.
 ```
-### Train Classifier
-```bash
-python3 main.py -tr OUTPUT_DIR/train -te OUTPUT_DIR/val
+./dataset
+├── parent_class_1
+│   ├── child_class_1
+│   │    ├── img_0001.jpg
+│   │    ├── img_0002.jpg
+│   ├── child_class_2
+│   │    ├── img_0001.jpg
+│   │    ├── img_0002.jpg
+├── parent_class
+│   ├── child_class_3
+│   │    ├── img_0001.jpg
+│   │    ├── img_0002.jpg
+│   ├── child_class_4
+│   │    ├── img_0001.jpg
+│   │    ├── img_0002.jpg
+│   │    ├── etc. . .
 ```
-`bins` folder will include crucial pickle files specific to the parent node
+Refer to [dataset_example](/dataset_example) for the directory structure used for our specific application of classifying CHANEL items.
 
-`outputs` folder will contain the results after training is complete
+Then, run the following script:
+```bash
+python3 prepare_dataset.py -p ./dataset_example
+```
+This script will prepare all datasets to train each local classifier under `split_datasets` folder.
+For our [dataset_example](/dataset_example), the script created 7 different datasets split into training and validation set; 1 parent classification model and 6 child classification models.
+
+### Train Classifier
+
+```bash
+cd fashion-net/src
+chmod +x ./train_lcpn.sh
+./train_lcpn.sh
+```
+This script will train all models consecutively from datasets in `split_datasets` folder. All of following output files will be saved in `fashion-net/trained_models` folder.
+```
+trained_models
+├── accessories
+│   ├── bin
+│   │   ├── encoder.pickle
+│   │   ├── inv_normalize.pickle
+│   │   └── test_transforms.pickle
+│   ├── class_plot.png
+│   ├── confusion_matrix.png
+│   ├── error_plot.png
+│   ├── model.pth
+│   ├── performance.txt
+│   └── wrong_plot.png
+├── bags
+├── cosmetics
+├── parent
+├── perfume
+├── wallets
+└── watches
+```
 
 ### Predict
-You need to manually move the generated `bin` folder into the outputs folder to use the following script.
+
 ```bash
-python3 predict.py -p ../outputs
+cd fashion-net/src/
+python3 predict.py -p RELATIVE_PATH_TO_IMAGE
+```
+Pass in the path to the image you wish to predict on, and this script will perform a two-stage prediction: Parent class & Child class.
+
+1. Parent Class Prediction -> Classified as "bags"
+2. Load encoder and model for "bags" child_class
+3. Child Class Prediction -> Classified as "bags_boy"
+```
+(venv) root@server:~/fashion-net/src# python3 predict.py -p ../sample_images/bags_boy.jpg
+=======Phase 1: Parent Class Prediction========
+Loading pkl files...
+ENCODER:  {0: 'accessories', 1: 'bags', 2: 'cosmetics', 3: 'perfume', 4: 'wallets', 5: 'watches'}
+Loading model.pth...
+Forward Passing...
+Predicting Label...
+Parent class prediction:  bags
+=======Phase 2: Child Class Prediction========
+Loading pkl files...
+ENCODER:  {0: 'bags_19', 1: 'bags_2.55', 2: 'bags_22', 3: 'bags_boy', 4: 'bags_gabrielle', 5: 'bags_pouches', 6: 'bags_timeless'}
+Loading model.pth...
+Forward Passing...
+Predicting Label...
+Final Prediction:  bags_boy
 ```
 
-## Results
-![](https://s3.us-west-2.amazonaws.com/secure.notion-static.com/a1684197-640b-4e4d-9d15-29df19b6ff4b/Untitled.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20220621%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20220621T072811Z&X-Amz-Expires=86400&X-Amz-Signature=9d2faeeae011d04a8731c74d8a699f01c1079838362a9aaafc521e573e0cef13&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22Untitled.png%22&x-id=GetObject)
+## Results & Performance
+![](./result_images/graph.png)
+![](./result_images/matrix.png)
 
-Avg. Acc: 80.18%
+Avg. Acc: 85.19%
+
 
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)

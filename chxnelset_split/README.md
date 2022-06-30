@@ -1,1 +1,0 @@
-Running splitdata.py will generate this particular directory structure.

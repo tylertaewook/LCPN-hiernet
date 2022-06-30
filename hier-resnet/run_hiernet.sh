@@ -1,1 +1,0 @@
-python3 train.py --train_csv ./dataset/train.csv --test_csv ./dataset/test.csv --metafile ./dataset/pickle_files/chanel_meta
