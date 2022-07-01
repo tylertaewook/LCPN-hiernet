@@ -95,7 +95,7 @@ Pass in the path to the image you wish to predict on, and this script will perfo
 2. Load encoder and model for "bags" child_class
 3. Child Class Prediction -> Classified as "bags_boy"
 ```bash
-$ python3 predict.py -p ../sample_images/bags_boy.jpg
+$ python3 predict.py -p ../sample_images/bags_b.jpg
 =======Phase 1: Parent Class Prediction========
 Loading pkl files...
 ENCODER:  {0: 'accessories', 1: 'bags', 2: 'cosmetics', 3: 'perfume', 4: 'wallets', 5: 'watches'}
@@ -105,11 +105,11 @@ Predicting Label...
 Parent class prediction:  bags
 =======Phase 2: Child Class Prediction========
 Loading pkl files...
-ENCODER:  {0: 'bags_19', 1: 'bags_2.55', 2: 'bags_22', 3: 'bags_boy', 4: 'bags_gabrielle', 5: 'bags_pouches', 6: 'bags_timeless'}
+ENCODER:  {0: 'bags_a', 1: 'bags_b', 2: 'bags_c', 3: 'bags_d', 4: 'bags_e', 5: 'bags_f', 6: 'bags_g'}
 Loading model.pth...
 Forward Passing...
 Predicting Label...
-Final Prediction:  bags_boy
+Final Prediction:  bags_b
 ```
 
 # Results & Performance
