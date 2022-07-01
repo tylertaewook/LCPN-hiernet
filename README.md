@@ -45,7 +45,7 @@ First, prepare a level-2 hierarchy dataset organized in the following structure.
 │   │    ├── img_0002.jpg
 │   │    ├── etc. . .
 ```
-Refer to [dataset.example](/dataset.example) for the directory structure used for our specific application of classifying CHANEL items.
+Refer to [dataset.example](/dataset.example) for the directory structure used for our specific application of classifying CHxNEL e-commerce products.
 
 Then, run the following script:
 ```bash
